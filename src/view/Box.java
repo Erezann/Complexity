@@ -9,13 +9,16 @@ import java.awt.*;
 class Box extends JPanel {
 
 
-    int largeur;
-    int hauteur;
-    int nbBoite;
+    private int largeur;
+    private int hauteur;
+    private int nbBoite;
+    private Frame frame;
 
-    public Box(Dimension dim,int nbBoite){
-        largeur=(int) dim.getHeight();
-        hauteur=(int) dim.getWidth();
+    //TODO modifier la classe en utilisant les fonctions getX et getY
+    public Box(Frame f,Dimension dim,int nbBoite){
+        frame=f;
+        largeur=(int) dim.getWidth();
+        hauteur=(int) dim.getHeight();
         this.nbBoite = nbBoite;
     }
 

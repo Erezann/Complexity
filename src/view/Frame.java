@@ -68,14 +68,22 @@ public class Frame extends JFrame{
 
     }
 
-    public static int getHauteurFenetre(){
-        return HAUTEUR_FENETRE;
-    }
-
+    /**
+     *
+     * @param num le numéro la boîte
+     * @param coordx la position dans la boîte (entre 0 et strict inférieur à tailleBoite.getWidth)
+     * @return la position dans la fenêtre de x
+     */
     public int getX(int num, int coordx){
         return MARGE+coordx*UNITE+num*(MARGE+(int)tailleBoite.getWidth()*UNITE);
     }
 
+    /**
+     *
+     * @param num le numéro de la boîte
+     * @param coordy la position y dans la boîte (entre 0 et strict inférieur à tailleBoîte.getHeight)
+     * @return la position de y dans la fenêtre
+     */
     public int getY(int num, int coordy){
         return MARGE+coordy*UNITE+(num/maxBoiteLigne)*(MARGE+UNITE*(int) tailleBoite.getHeight());
     }
@@ -92,5 +100,8 @@ public class Frame extends JFrame{
     }
     public static int getLargeurFenetre(){
         return LARGEUR_FENETRE;
+    }
+    public static int getHauteurFenetre(){
+        return HAUTEUR_FENETRE;
     }
 }
