@@ -68,26 +68,29 @@ public class Frame extends JFrame{
 
     }
 
+    public static int getHauteurFenetre(){
+        return HAUTEUR_FENETRE;
+    }
+
+    public int getX(int num, int coordx){
+        return MARGE+coordx*UNITE+num*(MARGE+(int)tailleBoite.getWidth()*UNITE);
+    }
+
+    public int getY(int num, int coordy){
+        return MARGE+coordy*UNITE+(num/maxBoiteLigne)*(MARGE+UNITE*(int) tailleBoite.getHeight());
+    }
+
+    public Dimension getTailleBoite(){
+        return tailleBoite;
+    }
+
     public static int getMarge() {
         return MARGE;
     }
     public static int getUnite(){
         return UNITE;
     }
-
     public static int getLargeurFenetre(){
         return LARGEUR_FENETRE;
-    }
-
-    public static int getHauteurFenetre(){
-        return HAUTEUR_FENETRE;
-    }
-
-    public int getX(int num, int coordx){
-        return MARGE+coordx*UNITE+num*(MARGE+nbBoite);
-    }
-
-    public int getY(int num, int coordy){
-        return MARGE+coordy*UNITE+(num/maxBoiteLigne)*(MARGE+UNITE*(int) tailleBoite.getHeight());
     }
 }
