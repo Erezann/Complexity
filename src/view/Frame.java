@@ -9,13 +9,22 @@ import java.util.List;
  */
 public class Frame extends JFrame{
 
+    /**
+     * Cette classe est la fenetre de base qui va contenir les dessins
+     */
+
+    private static final int LARGEUR_FENETRE=1100;
+    private static int HAUTEUR_FENETRE=600;
+    private static int UNITE=50;
+    private static int MARGE=5;
 
     public Frame(){;
         this.setVisible(true);
         this.setTitle("Projet de complexité");
-        this.setSize(400, 300);
+        this.setSize(LARGEUR_FENETRE, HAUTEUR_FENETRE);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
     }
 
     /**
@@ -23,6 +32,12 @@ public class Frame extends JFrame{
      * @param nbBoite le nombre nécessaire
      */
     public Frame(Dimension tailleBoite, int nbBoite){
+        this.setVisible(true);
+        this.setTitle("Projet de complexité");
+        this.setSize(LARGEUR_FENETRE, HAUTEUR_FENETRE);
+        this.setLocationRelativeTo(null);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setContentPane(new Box(tailleBoite,nbBoite));
     }
 
     /**
@@ -32,5 +47,20 @@ public class Frame extends JFrame{
      */
     public void drawRectangle(int numBoite, List<Dimension> coordRectangle){
 
+    }
+
+    public static int getMarge() {
+        return MARGE;
+    }
+    public static int getUnite(){
+        return UNITE;
+    }
+
+    public static int getLargeurFenetre(){
+        return LARGEUR_FENETRE;
+    }
+
+    public static int getHauteurFenetre(){
+        return HAUTEUR_FENETRE;
     }
 }
