@@ -1,0 +1,11 @@
+*.class
+.idea
+*.zip
+*.iml
+*~
+*.xml
+*.name
+out/
+idea/
+.DS_Store
+.bin
