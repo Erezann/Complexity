@@ -12,7 +12,7 @@ import java.util.List;
  */
 
 
-public class readTerminal {
+public class ReadTerminal {
 
 
     private Dimension tailleBoite;
@@ -23,7 +23,7 @@ public class readTerminal {
      * la première ligne contient la taille d'un carré
      * la deuxième ligne contient une liste de dimension représentant la taille des rectangle
      */
-    public readTerminal(){
+    public ReadTerminal(){
         BufferedReader entry = new BufferedReader(new InputStreamReader(System.in));
         String line;
         try {
