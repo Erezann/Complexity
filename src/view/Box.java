@@ -27,15 +27,15 @@ class Box extends JPanel {
         int ligne=0;
         for(int i=0;i<this.nbBoite;i++) {
 
-            if( Frame.getMarge() + ( largeur*Frame.getUnite() +Frame.getMarge() )*(i-nbBoiteAffiche)
-                    >Frame.getLargeurFenetre() -Frame.getUnite()*largeur ) {
+            if( frame.getMarge() + ( largeur*frame.getUnite() +frame.getMarge() )*(i-nbBoiteAffiche)
+                    >frame.getLargeurFenetre() -frame.getUnite()*largeur ) {
                 nbBoiteAffiche=i;
                 ligne++;
             }
 
-            g.drawRect(Frame.getMarge() + ( largeur*Frame.getUnite() +Frame.getMarge() )*(i-nbBoiteAffiche),
-                    Frame.getMarge()+(hauteur*Frame.getUnite()+Frame.getMarge())*ligne,
-                    largeur * Frame.getUnite(), hauteur * Frame.getUnite());
+            g.drawRect(frame.getMarge() + ( largeur*frame.getUnite() +frame.getMarge() )*(i-nbBoiteAffiche),
+                    frame.getMarge()+(hauteur*frame.getUnite()+frame.getMarge())*ligne,
+                    largeur * frame.getUnite(), hauteur * frame.getUnite());
 
 
         }

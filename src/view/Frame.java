@@ -13,10 +13,10 @@ public class Frame extends JFrame{
      * Cette classe est la fenetre de base qui va contenir les dessins
      */
 
-    private static final int LARGEUR_FENETRE=1100;
-    private static int HAUTEUR_FENETRE=600;
-    private static int UNITE=50;
-    private static int MARGE=5;
+    private int LARGEUR_FENETRE=1100;
+    private int HAUTEUR_FENETRE=600;
+    private int UNITE=50;
+    private int MARGE=5;
 
     private Dimension tailleBoite;
     private int nbBoite;
@@ -92,16 +92,16 @@ public class Frame extends JFrame{
         return tailleBoite;
     }
 
-    public static int getMarge() {
+    public int getMarge() {
         return MARGE;
     }
-    public static int getUnite(){
+    public int getUnite(){
         return UNITE;
     }
-    public static int getLargeurFenetre(){
+    public int getLargeurFenetre(){
         return LARGEUR_FENETRE;
     }
-    public static int getHauteurFenetre(){
+    public int getHauteurFenetre(){
         return HAUTEUR_FENETRE;
     }
 }
