@@ -36,7 +36,7 @@ public class Frame extends JFrame{
     public Frame(Dimension tailleBoite, int nbBoite){
         this.tailleBoite=tailleBoite;
         this.nbBoite=nbBoite;
-        this.maxBoiteLigne=getMaxBoiteLigne();
+        this.maxBoiteLigne=setMaxBoiteLigne();
 
         this.setVisible(true);
         this.setTitle("Projet de complexité");
@@ -47,7 +47,7 @@ public class Frame extends JFrame{
     }
 
     //retourne le nombre de boite maximum par ligne
-    int getMaxBoiteLigne(){
+    private int setMaxBoiteLigne(){
         int xMax;
         int i=1;
         do{
@@ -104,4 +104,5 @@ public class Frame extends JFrame{
     public int getHauteurFenetre(){
         return HAUTEUR_FENETRE;
     }
+    public int getMaxBoiteLigne() {return maxBoiteLigne; }
 }
