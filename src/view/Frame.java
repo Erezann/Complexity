@@ -61,11 +61,13 @@ public class Frame extends JFrame{
 
     /**
      *
-     * @param numBoite le numéro de la boîte où le rectangle doit être dessiné
-     * @param coordRectangle la liste des coordonnées du rectangle pour la boîte
+     * @param numBoite le numéro de la boîte où le rectangle doit être dessiné (trouvé par l'algo)
+     * @param coordRectangle l'emplacement du rectangle dans la boîte (trouvé par l'algo)
+     * @param dimensionRectangle la largeur et la hauteur du rectangle (cela correspond au 2x3)
      */
-    public void drawRectangle(int numBoite, List<Dimension> coordRectangle){
-
+    public void drawRectangle(int numBoite, Dimension coordRectangle, Dimension dimensionRectangle){
+        this.add(new Rectangle(this.getX(numBoite,coordRectangle.width),this.getY(numBoite,coordRectangle.height),
+                dimensionRectangle.width*UNITE,dimensionRectangle.height*UNITE));
     }
 
     /**

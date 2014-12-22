@@ -18,11 +18,11 @@ class Rectangle extends JPanel {
     int hauteur;
 
 
-    public Rectangle(int x,int y, Dimension dim){
+    public Rectangle(int x,int y, int l,int h){
         origx=x;
         origy=y;
-        largeur=(int) dim.getHeight();
-        hauteur=(int) dim.getWidth();
+        largeur=l;
+        hauteur=h;
     }
 
     public void paintComponent(Graphics g){
