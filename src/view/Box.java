@@ -14,7 +14,6 @@ class Box extends JPanel {
     private int nbBoite;
     private Frame frame;
 
-    //TODO modifier la classe en utilisant les fonctions getX et getY
     public Box(Frame f,Dimension dim,int nbBoite){
         frame=f;
         largeur=(int) dim.getWidth();
@@ -23,21 +22,8 @@ class Box extends JPanel {
     }
 
     public void paintComponent(Graphics g){
-        int nbBoiteAffiche=0;
-        int ligne=0;
         for(int i=0;i<this.nbBoite;i++) {
-
-            if( frame.getMarge() + ( largeur*frame.getUnite() +frame.getMarge() )*(i-nbBoiteAffiche)
-                    >frame.getLargeurFenetre() -frame.getUnite()*largeur ) {
-                nbBoiteAffiche=i;
-                ligne++;
-            }
-
-            g.drawRect(frame.getMarge() + ( largeur*frame.getUnite() +frame.getMarge() )*(i-nbBoiteAffiche),
-                    frame.getMarge()+(hauteur*frame.getUnite()+frame.getMarge())*ligne,
-                    largeur * frame.getUnite(), hauteur * frame.getUnite());
-
-
+            g.drawRect(frame.getX(i,0), frame.getY(i,0), largeur * frame.getUnite(), hauteur * frame.getUnite());
         }
 
     }
