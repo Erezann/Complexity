@@ -75,7 +75,7 @@ public class Frame extends JFrame{
      * @return la position dans la fenêtre de x
      */
     public int getX(int num, int coordx){
-        return MARGE+coordx*UNITE+num*(MARGE+(int)tailleBoite.getWidth()*UNITE);
+        return MARGE+coordx*UNITE+(num%maxBoiteLigne)*(MARGE+UNITE*(int)tailleBoite.getWidth());
     }
 
     /**
@@ -97,12 +97,6 @@ public class Frame extends JFrame{
     }
     public int getUnite(){
         return UNITE;
-    }
-    public int getLargeurFenetre(){
-        return LARGEUR_FENETRE;
-    }
-    public int getHauteurFenetre(){
-        return HAUTEUR_FENETRE;
     }
     public int getMaxBoiteLigne() {return maxBoiteLigne; }
 }
