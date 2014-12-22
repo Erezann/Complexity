@@ -28,18 +28,18 @@ public class FrameTest {
 
     @Test
     public void getXTest(){
-        Assert.assertEquals(Frame.getMarge(),f.getX(0,0));
-        Assert.assertEquals(Frame.getMarge()+Frame.getUnite(),f.getX(0,1));
-        Assert.assertEquals(2*Frame.getMarge()+Frame.getUnite()*(int)f.getTailleBoite().getWidth(),f.getX(1,0));
-        Assert.assertEquals(3*Frame.getMarge()+2*Frame.getUnite()*(int)f.getTailleBoite().getWidth()+2*Frame.getUnite(),f.getX(2,2));
+        Assert.assertEquals(f.getMarge(),f.getX(0,0));
+        Assert.assertEquals(f.getMarge()+f.getUnite(),f.getX(0,1));
+        Assert.assertEquals(2*f.getMarge()+f.getUnite()*(int)f.getTailleBoite().getWidth(),f.getX(1,0));
+        Assert.assertEquals(3*f.getMarge()+2*f.getUnite()*(int)f.getTailleBoite().getWidth()+2*f.getUnite(),f.getX(2,2));
     }
 
     @Test
     public void getYTest(){
-        Assert.assertEquals(Frame.getMarge(),f.getY(0, 0));
-        Assert.assertEquals(Frame.getMarge()+Frame.getUnite(),f.getY(0,1));
-        Assert.assertEquals(Frame.getMarge()+Frame.getUnite(),f.getY(3,1));
-        Assert.assertEquals(2*Frame.getMarge()+Frame.getUnite()*(int)f.getTailleBoite().getHeight(),f.getY(12,0));
-        Assert.assertEquals(2*Frame.getMarge()+Frame.getUnite()*(int)f.getTailleBoite().getHeight()+2*Frame.getUnite(),f.getY(19,2));
+        Assert.assertEquals(f.getMarge(),f.getY(0, 0));
+        Assert.assertEquals(f.getMarge()+f.getUnite(),f.getY(0,1));
+        Assert.assertEquals(f.getMarge()+f.getUnite(),f.getY(3,1));
+        Assert.assertEquals(2*f.getMarge()+f.getUnite()*(int)f.getTailleBoite().getHeight(),f.getY(12,0));
+        Assert.assertEquals(2*f.getMarge()+f.getUnite()*(int)f.getTailleBoite().getHeight()+2*f.getUnite(),f.getY(19,2));
     }
 }
