@@ -25,11 +25,14 @@ class Box extends JPanel {
     }
 
     public void paintComponent(Graphics g){
+        g.setColor(Color.gray);
         for(int i=0;i<this.nbBoite;i++) {
-            g.drawRect(frame.getX(i,0), frame.getY(i,0), largeur * frame.getUnite(), hauteur * frame.getUnite());
+            g.fillRect(frame.getX(i,0), frame.getY(i,0), largeur * frame.getUnite(), hauteur * frame.getUnite());
         }
 
+        g.setColor(Color.RED);
         for(Rectangle r: rectangles){
+
             g.drawRect(frame.getX(r.getBoite(),r.getOrigx()),frame.getY(r.getBoite(),r.getOrigy()),
                     r.getLargeur() * frame.getUnite(), r.getHauteur() * frame.getUnite());
         }
