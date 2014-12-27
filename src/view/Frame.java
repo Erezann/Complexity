@@ -19,23 +19,15 @@ public class Frame extends JFrame{
     private int MARGE=5;
 
     private Dimension tailleBoite;
-    private int nbBoite;
     private int maxBoiteLigne;
+    private Box boites;
 
-    public Frame(){;
-        this.setVisible(true);
-        this.setTitle("Projet de complexité");
-        this.setSize(LARGEUR_FENETRE, HAUTEUR_FENETRE);
-        this.setLocationRelativeTo(null);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    }
     /**
      * @param tailleBoite la taille des boite dans lesquelles on va insérer des rectangles
      * @param nbBoite le nombre nécessaire
      */
-    public Frame(Dimension tailleBoite, int nbBoite){
+    public Frame(Dimension tailleBoite, int nbBoite, List<Rectangle> rectangles){
         this.tailleBoite=tailleBoite;
-        this.nbBoite=nbBoite;
         this.maxBoiteLigne=setMaxBoiteLigne();
 
         this.setVisible(true);
@@ -43,7 +35,8 @@ public class Frame extends JFrame{
         this.setSize(LARGEUR_FENETRE, HAUTEUR_FENETRE);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setContentPane(new Box(this,tailleBoite,nbBoite));
+        this.boites = new Box(this,tailleBoite,nbBoite, rectangles);
+        this.setContentPane(boites);
     }
 
     //retourne le nombre de boite maximum par ligne
@@ -58,17 +51,6 @@ public class Frame extends JFrame{
         return i;
     }
 
-
-    /**
-     *
-     * @param numBoite le numéro de la boîte où le rectangle doit être dessiné (trouvé par l'algo)
-     * @param coordRectangle l'emplacement du rectangle dans la boîte (trouvé par l'algo)
-     * @param dimensionRectangle la largeur et la hauteur du rectangle (cela correspond au 2x3)
-     */
-    public void drawRectangle(int numBoite, Dimension coordRectangle, Dimension dimensionRectangle){
-        this.add(new Rectangle(this.getX(numBoite,coordRectangle.width),this.getY(numBoite,coordRectangle.height),
-                dimensionRectangle.width*UNITE,dimensionRectangle.height*UNITE));
-    }
 
     /**
      *
