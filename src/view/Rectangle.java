@@ -17,6 +17,7 @@ public class Rectangle{
      * @hauteur hauteur
      *
      * les valeurs ci-dessus correspondent à des valeurs en coordonnées, la traduction en pixel est faite dans box
+     * si les paramètres du constructeur sont mauvais toutes les valeurs sont initialisées à -1.
      *
      */
     private int origx;
