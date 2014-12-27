@@ -24,6 +24,7 @@ public class Rectangle{
     private int origy;
     private int largeur;
     private int hauteur;
+    private int numBoite;
 
     /**
      *
@@ -37,8 +38,11 @@ public class Rectangle{
             origy=-1;
             largeur=-1;
             hauteur=-1;
+            this.numBoite=-1;
             return;
         }
+
+        this.numBoite=numBoite;
 
         int minX=coordonnees.get(0).width;
         int maxX=coordonnees.get(0).width;
@@ -81,5 +85,9 @@ public class Rectangle{
     public int getOrigx() {
 
         return origx;
+    }
+
+    public int getBoite(){
+        return numBoite;
     }
 }
