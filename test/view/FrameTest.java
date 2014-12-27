@@ -5,24 +5,26 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.awt.*;
+import java.util.*;
 
 /**
  * Created by mael on 20/12/14.
  */
 public class FrameTest {
-    Frame f;
+    private Frame f;
+    private java.util.List<Rectangle> list = new ArrayList<Rectangle>();
 
     @Before
     public void setUp(){
-        f=new Frame(new Dimension(2,2),12);
+        f=new Frame(new Dimension(2,2),12,list);
     }
 
     @Test
     public void setMaxBoiteLigneTest(){
         Assert.assertEquals(10,f.getMaxBoiteLigne());
-        f=new Frame(new Dimension(5,2),10);
+        f=new Frame(new Dimension(5,2),10,list);
         Assert.assertEquals(4,f.getMaxBoiteLigne());
-        f=new Frame(new Dimension(1,2),25);
+        f=new Frame(new Dimension(1,2),25,list);
         Assert.assertEquals(19,f.getMaxBoiteLigne());
     }
 
