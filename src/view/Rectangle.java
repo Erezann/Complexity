@@ -31,6 +31,14 @@ public class Rectangle{
      */
     public Rectangle(int numBoite, List<Dimension> coordonnees){
 
+        if (numBoite<0 || coordonnees==null || coordonnees.isEmpty()){
+            origx=-1;
+            origy=-1;
+            largeur=-1;
+            hauteur=-1;
+            return;
+        }
+
         int minX=coordonnees.get(0).width;
         int maxX=coordonnees.get(0).width;
         int minY=coordonnees.get(0).height;
