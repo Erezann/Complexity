@@ -1,6 +1,8 @@
 package algorithm;
 
 import readEntry.ReadTerminal;
+import view.*;
+import view.Frame;
 
 import java.awt.*;
 import java.util.List;
@@ -12,24 +14,27 @@ import java.util.Map;
 public class Algo {
 
     /**
-     * readTerminal est l'objet permet de lire la taille de la boite et les dimensions des rectangles
-     * nbBoite correspond au nombre de boite nécessaire pour remplir les rectangles
-     * coordRectangle est un map ou chaque clé est un numéro de boite auquelle correspond la list des coordonnees de ses
-     * différents rectangle
-     * La première liste contient tout les rectangles et la deuxième la liste contient les coodonnées des emplacements du
-     * rectangle dans la boîte
+     * @param readTerminal est l'objet permet de lire la taille de la boite et les dimensions des rectangles
+     * @param nbBoite correspond au nombre de boite nécessaire pour remplir les rectangles
+     * @param rectangles list des view.Rectangles utiliser
+     *                   (voir la classe view.Rectangle pour la construction)
      *
      */
-    private ReadTerminal readTermcinal;
+    private ReadTerminal readTerminal;
     private int nbBoite;
-    private Map<Integer,List<List<Dimension>>> coordRectangle;
+    private List<view.Rectangle> rectangles;
 
 
     /**
      * Le constructeur doit permettre d'obtenir de compléter les attributs de Algo pour pouvoir construire l'objet draw
      */
      public Algo(){
-
+        readTerminal=new ReadTerminal();
 
      }
+
+
+    public void draw(){
+        new Frame(readTerminal.getTailleBoite(),nbBoite,rectangles);
+    }
 }

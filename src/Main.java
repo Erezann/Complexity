@@ -1,3 +1,4 @@
+import readEntry.ReadTerminal;
 import view.Frame;
 import view.Rectangle;
 
@@ -12,8 +13,16 @@ import java.util.List;
 public class Main {
     public static void main(String[] args){
         System.out.println("Hello world");
+
+        ReadTerminal r = new readEntry.ReadTerminal();
+
         List<Rectangle> list = new ArrayList<Rectangle>();
+        List<Dimension> coord = new ArrayList<Dimension>();
+        coord.add(new Dimension(0,0));
+        coord.add(new Dimension(1,0));
+        list.add(new Rectangle(2,coord));
         Frame f = new Frame(new Dimension(2,2),24, list);
+
 
     }
 }
