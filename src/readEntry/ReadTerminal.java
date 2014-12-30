@@ -27,8 +27,10 @@ public class ReadTerminal {
         BufferedReader entry = new BufferedReader(new InputStreamReader(System.in));
         String line;
         try {
+            System.out.println("Taille de la boite ? Format largeurxhauteur");
             line=entry.readLine();
             tailleBoite = getDimension(line);
+            System.out.println("Taille des rectangles ? Format lxh lxh lxh");
             line=entry.readLine();
             String[] listDim = getRectDim(line);
             for(String s : listDim) {

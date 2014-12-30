@@ -32,7 +32,6 @@ class Box extends JPanel {
 
         g.setColor(Color.RED);
         for(Rectangle r: rectangles){
-
             g.drawRect(frame.getX(r.getBoite(),r.getOrigx()),frame.getY(r.getBoite(),r.getOrigy()),
                     r.getLargeur() * frame.getUnite(), r.getHauteur() * frame.getUnite());
         }

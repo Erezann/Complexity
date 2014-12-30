@@ -1,3 +1,4 @@
+import algorithm.Algo;
 import readEntry.ReadTerminal;
 import view.Frame;
 import view.Rectangle;
@@ -14,15 +15,18 @@ public class Main {
     public static void main(String[] args){
         System.out.println("Hello world");
 
-        ReadTerminal r = new readEntry.ReadTerminal();
+        //ReadTerminal r = new readEntry.ReadTerminal();
 
-        List<Rectangle> list = new ArrayList<Rectangle>();
+  /*      List<Rectangle> list = new ArrayList<Rectangle>();
         List<Dimension> coord = new ArrayList<Dimension>();
         coord.add(new Dimension(0,0));
-        coord.add(new Dimension(1,0));
+        coord.add(new Dimension(1,1));
         list.add(new Rectangle(2,coord));
-        Frame f = new Frame(new Dimension(2,2),24, list);
+        list.add(new Rectangle(1,coord));
 
-
+        Frame f = new Frame(new Dimension(5,5),24, list);
+*/
+   Algo a = new Algo();
+        a.draw();
     }
 }

@@ -3,8 +3,10 @@ package algorithm;
 import readEntry.ReadTerminal;
 import view.*;
 import view.Frame;
+import view.Rectangle;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +32,22 @@ public class Algo {
      */
      public Algo(){
         readTerminal=new ReadTerminal();
+        //readTerminal.getTailleBoite()
+         nbBoite = readTerminal.getListRectangle().size();
+         //Donne une liste de dimensions, genre 2x3, 1x2...
+         // readTerminal.getListRectangle()
+         //On crée une liste de rectangles
+         rectangles = new ArrayList<Rectangle>();
+         int i = 0;
+         for (Dimension d : readTerminal.getListRectangle()) {
+             List<Dimension> coord = new ArrayList<Dimension>();
+             //Coord début : tout en haut à gauche de la boite, parce que là c'est juste 1 rect / boite
+             coord.add(new Dimension(0,0));
+             //coord de fin : ma largeur puis ma hauteur
+             coord.add(new Dimension((int)d.getWidth(),(int)d.getHeight()));
+             rectangles.add(new Rectangle(i++,coord));
+         }
+         System.out.println(rectangles.size());
 
      }
 
