@@ -44,10 +44,12 @@ public class Rectangle{
 
         this.numBoite=numBoite;
 
+        //0 est le point en haut à gauche
         int minX=coordonnees.get(0).width;
         int maxX=coordonnees.get(0).width;
         int minY=coordonnees.get(0).height;
         int maxY=coordonnees.get(0).height;
+
 
         for(Dimension d : coordonnees){
             if (d.width<minX){
@@ -66,6 +68,7 @@ public class Rectangle{
 
         origx=minX;
         origy=minY;
+        //Ici, il y avait maxX-minX + 1, idem pour la ligne d'en dessous, ça foutait le bordel, j'ai pas compris pourqoi ça y était ?
         largeur=maxX-minX+1;
         hauteur=maxY-minY+1;
     }
