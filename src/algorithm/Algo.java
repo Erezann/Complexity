@@ -40,7 +40,11 @@ public class Algo {
          //Ici, avec algo Shelf NextFit
         // for (Dimension d : readTerminal.getListRectangle()) rectangles.add(ajoutNextFit(d));
          //Ici, avec algo Shelf FirstFit
-         for (Dimension d : readTerminal.getListRectangle()) rectangles.add(ajoutFirstFit(d));
+         int i = 1;
+         for (Dimension d : readTerminal.getListRectangle()) {
+             System.out.println("Travail sur le rectangle " + i++);
+             rectangles.add(ajoutFirstFit(d));
+         }
          nbBoite++;
          System.out.println("Nombre boites : " + nbBoite + "\nnb rectangles : " + rectangles.size());
      }
@@ -48,19 +52,40 @@ public class Algo {
     private Rectangle ajoutFirstFit(Dimension d) {
             //Comment savoir si cette étagère est la dernière de la boite du moment ?
            for (int i = 0; i< etageres.size();i++) {
-
-            if (tiensSurLEtage(etageres.get(i), d.getWidth(), d.getHeight(), dernierEtage(i))) {
-                return ajoutSurLetage(etageres.get(i), d.getWidth(), d.getHeight());
-            }
-        }
+               //On teste si ça tient sur l'étage actuel
+               if (tiensSurLEtage(etageres.get(i), d.getWidth(), d.getHeight(), dernierEtage(i))) {
+                   System.out.println("Ca tient sur l'étage que je regarde !");
+                   return ajoutSurLetage(etageres.get(i), d.getWidth(), d.getHeight());
+               }
+           //Sinon, peut-être qu'on peut créer un nouvel étage ? Seulement dans le cas où on vient de regarder un dernier étage...
+              if (dernierEtage(i)) {
+                  if (etageres.get(i).getHeight() + d.getHeight() + etageres.get(i).getBeginY() <= tailleBoite.getHeight()) {
+                      System.out.println("J'ai le droit d'ouvrir un nouvel étage !");
+                      System.out.println("Nouvel étage dans la boite n°" + etageres.get(i).getBoite());
+                      ajouterEtage(etageres.get(i).getBoite(), etageres.get(i).getHeight());
+                      return ajoutSurLetage(etageres.get(etageres.size() - 1), d.getWidth(), d.getHeight());
+                  }
+              }
+           }
         //Si on est ici, pas d'étage libre : besoin d'une nouvelle boite
+        System.out.println("J'ajoute une nouvelle boite !");
         ajouterEtage(++nbBoite, 0);
         return ajoutSurLetage(etageres.get(etageres.size()-1), d.getWidth(), d.getHeight());
     }
 
+
     private boolean dernierEtage(int i) {
-        if (i < etageres.size()-1)
-        return etageres.get(i).getBoite() != etageres.get(i+1).getBoite();
+        int boiteActu = etageres.get(i).getBoite();
+        if (i < etageres.size()-1) {
+            for (;i<etageres.size()-1;++i) {
+                if (boiteActu == etageres.get(i).getBoite()) {
+                    return false;
+                }
+            }
+        }
+            //TODO : ce test est POURRI :
+            // vu que parfois j'ajoute des étagères bien après les premiers de la boite, on ne s'en rend pas compte comme ça !
+        //return etageres.get(i).getBoite() != etageres.get(i+1).getBoite();
         return true;
     }
 
@@ -69,8 +94,8 @@ public class Algo {
         if (dernierEtage) hauteurMax = tailleBoite.getHeight() - s.getBeginY();
         if (s.getCurrentX() + rectW <= tailleBoite.getWidth() && rectH <= hauteurMax)
             return true;
-        else
-            return false;
+        System.out.println("Je tiens pas sur le même étage !!!");
+        return false;
     }
 
     private Rectangle ajoutSurLetage(Shelf s, double rectW, double rectH) {
@@ -101,8 +126,9 @@ public class Algo {
         ajouterEtage(0, 0);
     }
 
+
     private void ajouterEtage(int quelleBoite, int hauteurDebut) {
-        etageres.add(new Shelf(quelleBoite, 0, currentLength, hauteurDebut));
+        etageres.add(new Shelf(quelleBoite, 0, hauteurDebut, 0));
     }
 
     //ici, j'ai la responsabilité d'augmenter le nbBoite si ncs !

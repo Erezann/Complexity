@@ -33,10 +33,13 @@ class Box extends JPanel {
             g.fillRect(frame.getX(i,0), frame.getY(i,0), largeur * frame.getUnite(), hauteur * frame.getUnite());
         }
 
-        g.setColor(Color.RED);
         int i = 1;
         for(Rectangle r: rectangles){
             System.out.println("Dessin de rectangle : " + i++ + r.getLargeur() + ", " + r.getHauteur());
+            g.setColor(Color.pink);
+            g.fillRect(frame.getX(r.getBoite(),r.getOrigx()),frame.getY(r.getBoite(),r.getOrigy()),
+                    r.getLargeur() * frame.getUnite(), r.getHauteur() * frame.getUnite());
+            g.setColor(Color.RED);
             g.drawRect(frame.getX(r.getBoite(),r.getOrigx()),frame.getY(r.getBoite(),r.getOrigy()),
                     r.getLargeur() * frame.getUnite(), r.getHauteur() * frame.getUnite());
         }
