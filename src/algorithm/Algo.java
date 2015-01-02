@@ -37,11 +37,58 @@ public class Algo {
          readTerminal=new ReadTerminal();
          rectangles = new ArrayList<Rectangle>();
          initialisation();
-         for (Dimension d : readTerminal.getListRectangle()) rectangles.add(ajoutRectangle(d));
+         //Ici, avec algo Shelf NextFit
+        // for (Dimension d : readTerminal.getListRectangle()) rectangles.add(ajoutNextFit(d));
+         //Ici, avec algo Shelf FirstFit
+         for (Dimension d : readTerminal.getListRectangle()) rectangles.add(ajoutFirstFit(d));
          nbBoite++;
          System.out.println("Nombre boites : " + nbBoite + "\nnb rectangles : " + rectangles.size());
      }
 
+    private Rectangle ajoutFirstFit(Dimension d) {
+            //Comment savoir si cette étagère est la dernière de la boite du moment ?
+           for (int i = 0; i< etageres.size();i++) {
+
+            if (tiensSurLEtage(etageres.get(i), d.getWidth(), d.getHeight(), dernierEtage(i))) {
+                return ajoutSurLetage(etageres.get(i), d.getWidth(), d.getHeight());
+            }
+        }
+        //Si on est ici, pas d'étage libre : besoin d'une nouvelle boite
+        ajouterEtage(++nbBoite, 0);
+        return ajoutSurLetage(etageres.get(etageres.size()-1), d.getWidth(), d.getHeight());
+    }
+
+    private boolean dernierEtage(int i) {
+        if (i < etageres.size()-1)
+        return etageres.get(i).getBoite() != etageres.get(i+1).getBoite();
+        return true;
+    }
+
+    private boolean tiensSurLEtage(Shelf s, double rectW, double rectH, boolean dernierEtage) {
+        double hauteurMax = shelfLength;
+        if (dernierEtage) hauteurMax = tailleBoite.getHeight() - s.getBeginY();
+        if (s.getCurrentX() + rectW <= tailleBoite.getWidth() && rectH <= hauteurMax)
+            return true;
+        else
+            return false;
+    }
+
+    private Rectangle ajoutSurLetage(Shelf s, double rectW, double rectH) {
+        // On commence par créer effectivement le rectangle
+        List<Dimension> coord = new ArrayList<Dimension>();
+        //x, y
+        coord.add(new Dimension(s.getCurrentX(),s.getBeginY()));
+        //coord de fin : ma largeur puis ma hauteur
+        coord.add(new Dimension(s.getCurrentX()+(int)rectW-1,s.getBeginY()+(int)rectH-1));
+        Rectangle rect = new Rectangle(s.getBoite(), coord);
+
+        //On adapte les informations pour l'étage utilisé
+        s.decalerX((int)rectW);
+        if (rectH>s.getHeight()) s.setHeight(rectH);
+        //currentWidth += rect.getWidth();
+
+        return rect;
+    }
 
     private void initialisation(){
         tailleBoite = readTerminal.getTailleBoite();
@@ -51,15 +98,15 @@ public class Algo {
         usedSurfaceArea = 0;
         shelfLength = 0;
         etageres = new ArrayList<>();
-        ajouterEtage(0);
+        ajouterEtage(0, 0);
     }
 
-    private void ajouterEtage(int hauteurDebut) {
-        etageres.add(new Shelf(0,currentLength,hauteurDebut));
+    private void ajouterEtage(int quelleBoite, int hauteurDebut) {
+        etageres.add(new Shelf(quelleBoite, 0, currentLength, hauteurDebut));
     }
 
     //ici, j'ai la responsabilité d'augmenter le nbBoite si ncs !
-    private Rectangle ajoutRectangle(Dimension rect) {
+    private Rectangle ajoutNextFit(Dimension rect) {
         verifierLargeur(rect);
         verifierHauteur(rect);
         return itFitsISits(rect);
@@ -71,8 +118,6 @@ public class Algo {
         //x, y
         coord.add(new Dimension(currentWidth,currentLength));
         //coord de fin : ma largeur puis ma hauteur
-        //coord.add(new Dimension((int)rect.getWidth(),(int)rect.getHeight()));
-        // essai coord de fin en donnant les coords, pas juste largeur hauteur => 1 de +, cf tests
         coord.add(new Dimension(currentWidth+(int)rect.getWidth()-1,currentLength+(int)rect.getHeight()-1));
         if (rect.getHeight()>shelfLength) shelfLength = (int)rect.getHeight();
         currentWidth += rect.getWidth();
