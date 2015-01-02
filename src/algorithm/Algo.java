@@ -5,7 +5,7 @@ import view.Frame;
 import view.Rectangle;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
 
 /**
@@ -25,10 +25,10 @@ public class Algo {
     private List<view.Rectangle> rectangles;
     private Dimension tailleBoite;
     private List<Shelf> etageres;
+    private List<Dimension> rectTries;
 
     private int currentWidth;
     private int currentLength;
-    private int usedSurfaceArea;
     private int shelfLength;
     /**
      * Le constructeur doit permettre d'obtenir de compléter les attributs de Algo pour pouvoir construire l'objet draw
@@ -41,34 +41,29 @@ public class Algo {
         // for (Dimension d : readTerminal.getListRectangle()) rectangles.add(ajoutNextFit(d));
          //Ici, avec algo Shelf FirstFit
          int i = 1;
-         for (Dimension d : readTerminal.getListRectangle()) {
-             System.out.println("Travail sur le rectangle " + i++);
+         for (Dimension d : rectTries) {
              rectangles.add(ajoutFirstFit(d));
          }
          nbBoite++;
-         System.out.println("Nombre boites : " + nbBoite + "\nnb rectangles : " + rectangles.size());
      }
 
     private Rectangle ajoutFirstFit(Dimension d) {
-            //Comment savoir si cette étagère est la dernière de la boite du moment ?
-           for (int i = 0; i< etageres.size();i++) {
+        for (int i = 0; i<etageres.size();i++){
+            Shelf monEtagere = etageres.get(i);
                //On teste si ça tient sur l'étage actuel
-               if (tiensSurLEtage(etageres.get(i), d.getWidth(), d.getHeight(), dernierEtage(i))) {
-                   System.out.println("Ca tient sur l'étage que je regarde !");
-                   return ajoutSurLetage(etageres.get(i), d.getWidth(), d.getHeight());
+               boolean dernierEt = dernierEtage(i);
+               if (tiensSurLEtage(monEtagere, d.getWidth(), d.getHeight(), dernierEt)) {
+                   return ajoutSurLetage(monEtagere, d.getWidth(), d.getHeight());
                }
            //Sinon, peut-être qu'on peut créer un nouvel étage ? Seulement dans le cas où on vient de regarder un dernier étage...
-              if (dernierEtage(i)) {
-                  if (etageres.get(i).getHeight() + d.getHeight() + etageres.get(i).getBeginY() <= tailleBoite.getHeight()) {
-                      System.out.println("J'ai le droit d'ouvrir un nouvel étage !");
-                      System.out.println("Nouvel étage dans la boite n°" + etageres.get(i).getBoite());
-                      ajouterEtage(etageres.get(i).getBoite(), etageres.get(i).getHeight());
+              if (dernierEt) {
+                  if (monEtagere.getHeight() + d.getHeight() + monEtagere.getBeginY() <= tailleBoite.getHeight()) {
+                      ajouterEtage(monEtagere.getBoite(), monEtagere.getHeight()+monEtagere.getBeginY());
                       return ajoutSurLetage(etageres.get(etageres.size() - 1), d.getWidth(), d.getHeight());
                   }
               }
            }
         //Si on est ici, pas d'étage libre : besoin d'une nouvelle boite
-        System.out.println("J'ajoute une nouvelle boite !");
         ajouterEtage(++nbBoite, 0);
         return ajoutSurLetage(etageres.get(etageres.size()-1), d.getWidth(), d.getHeight());
     }
@@ -77,15 +72,10 @@ public class Algo {
     private boolean dernierEtage(int i) {
         int boiteActu = etageres.get(i).getBoite();
         if (i < etageres.size()-1) {
-            for (;i<etageres.size()-1;++i) {
-                if (boiteActu == etageres.get(i).getBoite()) {
-                    return false;
-                }
+            while(i<etageres.size()-1) {
+                if (boiteActu == etageres.get(++i).getBoite()) return false;
             }
         }
-            //TODO : ce test est POURRI :
-            // vu que parfois j'ajoute des étagères bien après les premiers de la boite, on ne s'en rend pas compte comme ça !
-        //return etageres.get(i).getBoite() != etageres.get(i+1).getBoite();
         return true;
     }
 
@@ -94,7 +84,6 @@ public class Algo {
         if (dernierEtage) hauteurMax = tailleBoite.getHeight() - s.getBeginY();
         if (s.getCurrentX() + rectW <= tailleBoite.getWidth() && rectH <= hauteurMax)
             return true;
-        System.out.println("Je tiens pas sur le même étage !!!");
         return false;
     }
 
@@ -120,10 +109,23 @@ public class Algo {
         currentWidth = 0;
         currentLength = 0;
         nbBoite = 0;
-        usedSurfaceArea = 0;
         shelfLength = 0;
         etageres = new ArrayList<>();
         ajouterEtage(0, 0);
+        triRectangles(readTerminal.getListRectangle());
+    }
+
+    private void triRectangles(List<Dimension> rects) {
+        //On crée un comparateur pour la Dimension.
+        //Ici, on choisit de ne prendre en compte que la largeur des rectangles
+        Comparator<Dimension> c = new Comparator<Dimension>() {
+            public int compare(Dimension d1, Dimension d2) {
+                return (int)d2.getWidth()-(int)d1.getWidth();
+            }
+        };
+        rectTries = rects;
+       Collections.sort(rectTries, c);
+
     }
 
 
@@ -172,6 +174,5 @@ public class Algo {
 
     public void draw(){
             new Frame(readTerminal.getTailleBoite(),nbBoite,rectangles);
-        System.out.println("Je dessine une boite de taille" + readTerminal.getTailleBoite());
     }
 }
