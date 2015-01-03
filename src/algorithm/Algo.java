@@ -36,6 +36,7 @@ public class Algo {
          readTerminal = term;
          initialisation();
          for (Dimension d : rectTries) {
+             if (d.getHeight()>tailleBoite.getHeight() || d.getWidth()>tailleBoite.getWidth()) throw new UnvalidDimensionException("Un rectangle dépasse la taille des boites, calculs arrêtés. " + d.toString());
              rectangles.add(ajoutFirstFit(d));
          }
          nbBoite++;
@@ -57,7 +58,7 @@ public class Algo {
                   }
               }
            }
-        //Si on est ici, pas d'étage libre : besoin d'une nouvelle boite
+        //Si on est ici, aucun étage libre : besoin d'une nouvelle boite
         ajouterEtage(++nbBoite, 0);
         return ajoutSurLetage(etageres.get(etageres.size()-1), d.getWidth(), d.getHeight());
     }
@@ -95,7 +96,10 @@ public class Algo {
         Rectangle rect = new Rectangle(s.getBoite(), coord);
         s.decalerX((int)rectW);
         if (rectH>s.getHeight()) s.setHeight(rectH);
-        return rect;
+        if (s.getCurrentX() ==tailleBoite.getWidth()) {
+            etageres.remove(s);
+        }
+            return rect;
     }
 
     private void initialisation(){
@@ -115,8 +119,8 @@ public class Algo {
     protected void triRectangles(List<Dimension> rects) {
         Comparator<Dimension> c = new Comparator<Dimension>() {
             public int compare(Dimension d1, Dimension d2) {
-                if (d2.getWidth() == d1.getWidth()) return (int)d2.getHeight()-(int)d1.getHeight();
-                return (int)d2.getWidth()-(int)d1.getWidth();
+                if (d2.getHeight() == d1.getHeight()) return (int)d2.getWidth()-(int)d1.getWidth();
+                return (int)d2.getHeight()-(int)d1.getHeight();
             }
         };
         rectTries = rects;

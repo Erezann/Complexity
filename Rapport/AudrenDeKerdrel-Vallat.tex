@@ -16,7 +16,7 @@
 
 
 \section{Étude du problème et de sa complexité algorithmique}
-Le problème de ce projet est appelé problème Bin Packing, avec la particularité d'être en deux dimensions. Dans la partie suivante, on étudiera sa complexité. \\
+Le problème de ce projet est appelé problème Bin Packing, avec la particularité d'être en deux dimensions. \\
 Il s'agit d'un problème d'optimisation combinatoire, qui a de nombreuses applications pratiques, notamment pour le transport de matériau.
 
 
@@ -48,7 +48,7 @@ Un ensemble fini d’élements U avec une largeur $L \in N$ et une hauteur $H \i
  \bsc{Question : }  \begin{quote}
  Peut-on partitionner  $U$ en $U_1, U_2, ..., U_k$ sans que la somme des longueurs et largeurs des éléments des $U_i$ dépasse la longueur et largeur de $B$ ?  \end{quote}
  
-La transformation en temps polynomial pour réduire Bin Packing à Bin Packin 2D est la suivante : \\
+La transformation en temps polynomial pour réduire Bin Packing à Bin Packing 2D est la suivante : \\
 La taille des éléments $U = $la hauteur $H$ de chaque U. La largeur de chaque $U = 1$. La taille $B$ = la hauteur $K$ de la boite, et sa largeur $J = 1$ et enfin $n=k$. \\ 
 Dans ces conditions, on a un Bin Packing si et seulement si on a un Bin Packing 2D. En effet, un Bin packing est un Bin Packing 2D lorsque les tailles de chaque élément $U$ correspondent à la longueur de chaque élément du Bin packing 2D, et la largeur des éléments du Bin Packing 2D est la largeur de la boite du 2D, soit 1. La longueur de la boite est la taille $B$ du Bin Packing 1 Dimension. \\
 Il n'existe donc pas d'algorithme exact pour résoudre en temps polynomial ce problème. Cependant, on peut trouver des algorithmes d'approximation. 
@@ -60,8 +60,50 @@ Nous avons choisi d'utiliser une variante de l'algorithme \emph{First Fit Decrea
 Pour cet algorithme, on effectue d'abord une série d'initialisations : On enregistre les dimensions de la boite, afin de pouvoir librement y revenir, on établit le nombre de boites à 0 pour commencer, on crée une structure où on maintiendra une liste des étagères "ouvertes", et on en crée une première, dans la première boite. \\
 Enfin, on trie de façon décroissante la liste des rectangles, en fonction de leur largeur uniquement. \\
 
-L'algorithme en lui-même consiste en tester, pour chaque rectangle, s'il entre dans un étage actuellement ouvert. Un rectangle peut entrer dans un étage s'il reste en largeur un espace suffisant pour qu'il s'y insère, et que la hauteur maximum de l'étage le permet aussi. \\
-La hauteur maximum de l'étage est calculée ainsi : si l'étage est le "dernier" au sens du plus haut, de la boite, sa hauteur actuelle peut être augmentée d'autant que de toute la hauteur restante de la boite si besoin est. 
+L'algorithme en lui-même consiste à tester, pour chaque rectangle, s'il entre dans un étage actuellement ouvert. Un rectangle peut entrer dans un étage s'il reste en largeur un espace suffisant pour qu'il s'y insère, et que la hauteur maximum de l'étage le permet aussi. \\
+La hauteur maximum de l'étage est calculée ainsi : si l'étage est le "dernier" au sens du plus haut, de la boite, sa hauteur actuelle peut être augmentée d'autant que de toute la hauteur restante de la boite si besoin est. \\
+Après le test de tous les étages ouverts, si le rectangle n'est pas encore positionné, on peut créer une nouvel étage dans une boite existante, ou bien créer une nouvelle boite si cet espace ne peut pas suffire.\\
+Un étage est "ouvert" tant qu'il ne remplit pas la largeur de la boite.  \\
+
+\subsubsection*{Complexité de cet algorithme}
+Avec $n$ le nombre de rectangles à placer. \\
+Avant la recherche d'une position pour chaque rectangle, notre algorithme les trie. Cela provoque une complexité minimum de notre algorithme de $n log n$. \\
+Avec la recherche dans la liste des étagères laquelle est la première adaptée pour notre rectangle, on a dans le pire des cas une complexité de $n^2$. 
+Dans le meilleur des cas, la complexité est de $n log n$ : si la boite est suffisamment grande pour contenir sur un seul étage tous les rectangles. 
+En moyenne, le nombre de d'étages varie de 1 pour le premier rectangle, et augmente ensuite au fur et à mesure, sans jamais dépasser le nombre de rectangles. La complexité est donc de $O(n log n + nk)$, avec k le nombre d'étages, qui varie entre $1$ et $k$, le nombre de boites. 
+
+\subsubsection*{Efficacité de cet algorithme}
+On sait déjà que pour tout jeu de données, $FF(D)$ le résultat de notre algorithme $< 2OPT(D)$, avec $OPT(D)$ la solution optimale. En effet, la somme des surfaces contenues dans la première et la deuxième boite est supérieure à 1. C'est également le cas pour la boite $i$ et la boite $i+1$. 
+On a donc : 
+\[ FFD(D) = k < 2 \sum_{i=1}^n u_{i} \]
+Enfin, comme $ \sum_{i=1}^n u_{i} \leq OPT(D)$ , on peut confirmer que 
+\[ FFD(D)<2OPT(D) \]
+
+Au final, on trouve dans la littérature que cet algorithme a comme bornes : 
+\begin{itemize}
+\item haute : 
+\[ FFD(D) < \frac{11}{9}OPT(D) + 4 \]
+\item basse : 
+\[ FFD(D) < \frac{11}{9}OPT(D) \]
+\end{itemize}
+
+
+\subsubsection*{Autres possibilités}
+Plusieurs possibilités d'optimisation existent, tout en conservant les contraintes d'orientation des rectangles, et leur intégrité. Ces optimisations nécessitent également d'obtenir tous les rectangles d'un coup, et pas de manière inline, comme dans notre propre implémentation. \\
+Cependant, même en étant loin d'être exponentiels, ces algorithmes demandent beaucoup plus de mémoire, et surtout de puissance. 
+Ainsi, par exemple, on peut mélanger différents algorithmes "faciles" :\\
+\begin{itemize}
+\item On dispose les grands rectangles directement, à l'aide d'un algorithme de flots maximums. Le flot nous permettra d'avoir un nombre de boites minimum pour ces rectangles. 
+\item On peut avoir recours à la force brute au contraire, pour les rectangles longs et plats en particulier : ils peuvent tapisser les boites, une fois que les plus gros sont positionnés. 
+\item On peut enfin utiliser l'algorithme FFD pour les plus petits rectangles, dans les places restantes en priorité, avant d'ouvrir de nouvelles boites. 
+\end{itemize}
+On peut également prendre le problème à l'envers, et après avoir défini un nombre de boites maximum, faire pour chaque boite jusqu'à son remplissage ou l'impossibilité d'ajouter quelque chose, une recherche dans la liste des rectangles pour utiliser celui qui est le plus approprié. \\
+
+
+Cependant, ces solutions demandent non seulement plus de place en mémoire, mais aussi plus de puissance d'exécution. Pour de vrais problèmes, il est donc nécessaire d'avoir des machines conséquentes pour procéder à ces améliorations, qui peuvent pourtant apporter une vraie différence dans la qualité de la solution. 
+Nous ne les avons pas choisies, car nous avons souhaité que notre solution reste la plus simple possible, dans les limites de la qualité. En premier lieu, par nécessité de rester performant, et en second lieu, pour éviter de tomber dans le piège d'un algorithme glouton en  essayant d'optimiser notre solution.  
+
+
 
 \newpage
 \begin{thebibliography}{9}
@@ -69,5 +111,14 @@ La hauteur maximum de l'étage est calculée ainsi : si l'étage est le "dernier
          Jukka Jylänki,
           \emph{A Thousand Ways to Pack the Bin - A Practical Approach to Two-Dimensional Rectangle Bin Packing}.
           2010.
+\bibitem{cours}
+         Johny Bond,
+          \emph{Cours de Complexité SI4}.
+          2014.
+\bibitem
+		Nikhil Bansal and Arindam Khan,
+		\emph{Improved Approximation Algorithm for
+Two-Dimensional Bin Packing}.
+		2014
 \end{thebibliography}
 \end{document}
