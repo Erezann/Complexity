@@ -26,7 +26,8 @@ public class Main {
 
         Frame f = new Frame(new Dimension(5,5),24, list);
 */
-   Algo a = new Algo();
+        ReadTerminal readTerminal=new ReadTerminal();
+        Algo a = new Algo(readTerminal);
         a.draw();
     }
 }

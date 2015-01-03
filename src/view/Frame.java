@@ -29,14 +29,15 @@ public class Frame extends JFrame{
     public Frame(Dimension tailleBoite, int nbBoite, List<Rectangle> rectangles){
         this.tailleBoite=tailleBoite;
         this.maxBoiteLigne=setMaxBoiteLigne();
-
         this.setVisible(true);
-        this.setTitle("Projet de complexité");
+        this.setTitle("Projet de complexité - " + nbBoite + " boites utilisées");
         this.setSize(LARGEUR_FENETRE, HAUTEUR_FENETRE);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.boites = new Box(this,tailleBoite,nbBoite, rectangles);
         this.setContentPane(boites);
+        Label monLabel = new Label("On a utilisé " + nbBoite +" boites");
+        this.add(monLabel);
     }
 
     //retourne le nombre de boite maximum par ligne

@@ -27,20 +27,14 @@ public class Algo {
     private List<Shelf> etageres;
     private List<Dimension> rectTries;
 
-    private int currentWidth;
-    private int currentLength;
     private int shelfLength;
     /**
      * Le constructeur doit permettre d'obtenir de compléter les attributs de Algo pour pouvoir construire l'objet draw
      */
-     public Algo(){
-         readTerminal=new ReadTerminal();
+     public Algo(ReadTerminal term){
          rectangles = new ArrayList<Rectangle>();
+         readTerminal = term;
          initialisation();
-         //Ici, avec algo Shelf NextFit
-        // for (Dimension d : readTerminal.getListRectangle()) rectangles.add(ajoutNextFit(d));
-         //Ici, avec algo Shelf FirstFit
-         int i = 1;
          for (Dimension d : rectTries) {
              rectangles.add(ajoutFirstFit(d));
          }
@@ -87,27 +81,25 @@ public class Algo {
         return false;
     }
 
+    /**
+     * Ici, on crée le rectangle à ajouter, puis on modifie les informations nécessaires sur l'étage
+     * @param s l'étagère où on ajoute le rectangle
+     * @param rectW la largeur du rectangle
+     * @param rectH la hauteur du rectangle
+     * @return le nouveau rectangle placé
+     */
     private Rectangle ajoutSurLetage(Shelf s, double rectW, double rectH) {
-        // On commence par créer effectivement le rectangle
         List<Dimension> coord = new ArrayList<Dimension>();
-        //x, y
         coord.add(new Dimension(s.getCurrentX(),s.getBeginY()));
-        //coord de fin : ma largeur puis ma hauteur
         coord.add(new Dimension(s.getCurrentX()+(int)rectW-1,s.getBeginY()+(int)rectH-1));
         Rectangle rect = new Rectangle(s.getBoite(), coord);
-
-        //On adapte les informations pour l'étage utilisé
         s.decalerX((int)rectW);
         if (rectH>s.getHeight()) s.setHeight(rectH);
-        //currentWidth += rect.getWidth();
-
         return rect;
     }
 
     private void initialisation(){
         tailleBoite = readTerminal.getTailleBoite();
-        currentWidth = 0;
-        currentLength = 0;
         nbBoite = 0;
         shelfLength = 0;
         etageres = new ArrayList<>();
@@ -115,64 +107,29 @@ public class Algo {
         triRectangles(readTerminal.getListRectangle());
     }
 
-    private void triRectangles(List<Dimension> rects) {
-        //On crée un comparateur pour la Dimension.
-        //Ici, on choisit de ne prendre en compte que la largeur des rectangles
+    /**
+     * Méthode pour trier par ordre décroissant les rectangles avant de les placer, afin d'optimiser le placement.
+     * Le tri est uniquement en fonction de la largeur. Si les largeurs sont égales, on choisit d'abord la plus grande longueur.
+     * @param rects la liste des rectangles non placés
+     */
+    protected void triRectangles(List<Dimension> rects) {
         Comparator<Dimension> c = new Comparator<Dimension>() {
             public int compare(Dimension d1, Dimension d2) {
+                if (d2.getWidth() == d1.getWidth()) return (int)d2.getHeight()-(int)d1.getHeight();
                 return (int)d2.getWidth()-(int)d1.getWidth();
             }
         };
         rectTries = rects;
        Collections.sort(rectTries, c);
-
     }
-
 
     private void ajouterEtage(int quelleBoite, int hauteurDebut) {
         etageres.add(new Shelf(quelleBoite, 0, hauteurDebut, 0));
     }
 
-    //ici, j'ai la responsabilité d'augmenter le nbBoite si ncs !
-    private Rectangle ajoutNextFit(Dimension rect) {
-        verifierLargeur(rect);
-        verifierHauteur(rect);
-        return itFitsISits(rect);
-    }
-
-    private Rectangle itFitsISits(Dimension rect) {
-        //Si ça rentre :
-        List<Dimension> coord = new ArrayList<Dimension>();
-        //x, y
-        coord.add(new Dimension(currentWidth,currentLength));
-        //coord de fin : ma largeur puis ma hauteur
-        coord.add(new Dimension(currentWidth+(int)rect.getWidth()-1,currentLength+(int)rect.getHeight()-1));
-        if (rect.getHeight()>shelfLength) shelfLength = (int)rect.getHeight();
-        currentWidth += rect.getWidth();
-        return new Rectangle(nbBoite, coord);
-    }
-
-    private void verifierHauteur(Dimension rect) {
-        //Besoin de vérifier la hauteur aussi : peut-être besoin de changer de boite en fait !
-        if (currentLength + rect.getHeight() > tailleBoite.getHeight()) { // Alors plus de place en hauteur,
-            // on change de boite, pas le choix, comme on n'a pas le droit de retourner les rectangles !
-            nbBoite++;
-            currentWidth = 0;
-            currentLength = 0;
-            shelfLength = 0;
-        }
-    }
-
-    private void verifierLargeur(Dimension rect) {
-        if (currentWidth + rect.getWidth() > tailleBoite.getWidth()) { //Si je n'ai plus la largeur pour mettre mon rectangle
-            //On fait un nouvel étage =>pas nécessairement = une nouvelle boite
-            currentWidth = 0;
-            currentLength += shelfLength;
-            shelfLength = 0;
-        }
-    }
-
     public void draw(){
-            new Frame(readTerminal.getTailleBoite(),nbBoite,rectangles);
+        new Frame(readTerminal.getTailleBoite(),nbBoite,rectangles);
     }
 }
+
+
