@@ -49,7 +49,7 @@ public class ReadTerminal {
      * @return une liste de dimension ecrite en string [2x2,3x3,2x3]
      */
     private String[] getRectDim(String s){
-        return s.split(" ");
+        return s.split(",");
     }
 
     /**
