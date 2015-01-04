@@ -51,7 +51,8 @@ Un ensemble fini d’élements U avec une largeur $L \in N$ et une hauteur $H \i
 La transformation en temps polynomial pour réduire Bin Packing à Bin Packing 2D est la suivante : \\
 La taille des éléments $U = $la hauteur $H$ de chaque U. La largeur de chaque $U = 1$. La taille $B$ = la hauteur $K$ de la boite, et sa largeur $J = 1$ et enfin $n=k$. \\ 
 Dans ces conditions, on a un Bin Packing si et seulement si on a un Bin Packing 2D. En effet, un Bin packing est un Bin Packing 2D lorsque les tailles de chaque élément $U$ correspondent à la longueur de chaque élément du Bin packing 2D, et la largeur des éléments du Bin Packing 2D est la largeur de la boite du 2D, soit 1. La longueur de la boite est la taille $B$ du Bin Packing 1 Dimension. \\
-Il n'existe donc pas d'algorithme exact pour résoudre en temps polynomial ce problème. Cependant, on peut trouver des algorithmes d'approximation. 
+Donc Bin Packing 2D est NP-Difficile.\\
+Par conséquent, il n'existe pas d'algorithme exact pour résoudre en temps polynomial ce problème. Cependant, on peut trouver des algorithmes d'approximation. 
 
 \newpage
 \section{Présentation de notre solution}
@@ -90,7 +91,7 @@ Au final, on trouve dans la littérature que cet algorithme a comme bornes :
 
 \subsubsection*{Autres possibilités}
 Plusieurs possibilités d'optimisation existent, tout en conservant les contraintes d'orientation des rectangles, et leur intégrité. Ces optimisations nécessitent également d'obtenir tous les rectangles d'un coup, et pas de manière inline, comme dans notre propre implémentation. \\
-Cependant, même en étant loin d'être exponentiels, ces algorithmes demandent beaucoup plus de mémoire, et surtout de puissance. 
+Cependant, même en étant loin d'être exponentiels, ces algorithmes demandent beaucoup plus de mémoire, et surtout de puissance pour obtenir une solution rapide. 
 Ainsi, par exemple, on peut mélanger différents algorithmes "faciles" :\\
 \begin{itemize}
 \item On dispose les grands rectangles directement, à l'aide d'un algorithme de flots maximums. Le flot nous permettra d'avoir un nombre de boites minimum pour ces rectangles. 
