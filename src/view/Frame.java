@@ -59,7 +59,6 @@ public class Frame extends JFrame{
             yMax=MARGE+(UNITE*tailleBoite.height+MARGE)*i;
         }while ((yMax<HAUTEUR_FENETRE));
         i--;
-        System.out.println(i);
         return i;
     }
 
@@ -72,7 +71,6 @@ public class Frame extends JFrame{
             xMax=MARGE+(UNITE*tailleBoite.width+MARGE)*i;
         }while(xMax<LARGEUR_FENETRE);
         i--;//on s'arrête dès que le nombre de boîte dépasse on retourne donc au nombre de boîte précédent
-        System.out.println("i:"+i);
         return i;
     }
 
