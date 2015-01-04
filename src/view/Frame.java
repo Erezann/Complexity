@@ -28,6 +28,7 @@ public class Frame extends JFrame{
      */
     public Frame(Dimension tailleBoite, int nbBoite, List<Rectangle> rectangles){
         this.tailleBoite=tailleBoite;
+        this.setUnite(nbBoite);
         this.maxBoiteLigne=setMaxBoiteLigne();
         this.setVisible(true);
         this.setTitle("Projet de complexité - " + nbBoite + " boites utilisées");
@@ -40,15 +41,38 @@ public class Frame extends JFrame{
         this.add(monLabel);
     }
 
+    private void setUnite(int nbBoite){
+        int nbBoiteLigne=setMaxBoiteLigne();
+        int nbBoiteColonne=getMaxBoiteColonne();
+        while (nbBoite/nbBoiteLigne > nbBoiteColonne){
+            UNITE=UNITE-UNITE/4;
+            nbBoiteLigne=setMaxBoiteLigne();
+            nbBoiteColonne=getMaxBoiteColonne();
+        }
+    }
+
+    private int getMaxBoiteColonne(){
+        int yMax;
+        int i=1;
+        do{
+            i++;
+            yMax=MARGE+(UNITE*tailleBoite.height+MARGE)*i;
+        }while ((yMax<HAUTEUR_FENETRE));
+        i--;
+        System.out.println(i);
+        return i;
+    }
+
     //retourne le nombre de boite maximum par ligne
     private int setMaxBoiteLigne(){
         int xMax;
         int i=1;
         do{
             i++;
-            xMax=MARGE+(UNITE*(int)tailleBoite.getWidth()+MARGE)*i;
+            xMax=MARGE+(UNITE*tailleBoite.width+MARGE)*i;
         }while(xMax<LARGEUR_FENETRE);
         i--;//on s'arrête dès que le nombre de boîte dépasse on retourne donc au nombre de boîte précédent
+        System.out.println("i:"+i);
         return i;
     }
 

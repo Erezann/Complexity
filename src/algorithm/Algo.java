@@ -106,7 +106,7 @@ public class Algo {
         tailleBoite = readTerminal.getTailleBoite();
         nbBoite = 0;
         shelfLength = 0;
-        etageres = new ArrayList<>();
+        etageres = new ArrayList<Shelf>();
         ajouterEtage(0, 0);
         triRectangles(readTerminal.getListRectangle());
     }
